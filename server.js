@@ -19,7 +19,7 @@ var start =  function(cb) {
   app.use(bodyParser.json({type: '*/*'}));
 
   logger.info('[SERVER] Initializing routes');
-  //require('../../app/routes/index')(app);
+  require('./app/routes/index')(app);
 
   // Error handler
   app.use(function(err, req, res, next) {
