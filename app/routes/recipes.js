@@ -17,7 +17,8 @@ module.exports = function(router, db) {
 
   router.route('/')
     .get(function(req, res, next) {
-      res.json(database)
+      console.log(db);
+      res.json([])
     }).post(function(req, res, next) {
       // Create new recipe
     });

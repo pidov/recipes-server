@@ -14,10 +14,13 @@ nconf.argv();
 // Load environment variables
 nconf.env();
 // Load config file for the environment
-require('./config/environments/' + nconf.get('NODE_ENV'));
+var config = require('./config/environments/' + nconf.get('NODE_ENV'));
 
 logger.info('[APP] Starting server initialization');
 
-server(function() {
+server(config, function(err) {
+  if (err) {
+    return logger.error('[APP] Server initialization failed.');
+  }
   logger.info('[APP] Server initialized successfully.');
 });
