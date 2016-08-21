@@ -7,7 +7,7 @@ var config = require('nconf');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var logger = require('winston');
-var app;
+var app, db;
 
 var start =  function(cb) {
   'use strict';
@@ -19,7 +19,7 @@ var start =  function(cb) {
   app.use(bodyParser.json({type: '*/*'}));
 
   logger.info('[SERVER] Initializing routes');
-  require('./app/routes/index')(app);
+  require('./app/routes/index')(app, db);
 
   // Error handler
   app.use(function(err, req, res, next) {

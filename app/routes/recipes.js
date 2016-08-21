@@ -1,4 +1,4 @@
-module.exports = function(router) {
+module.exports = function(router, db) {
   'use strict';
   // This will handle the url calls for /recipes/:recipeId
   router.route('/:recipeId')
@@ -17,7 +17,7 @@ module.exports = function(router) {
 
   router.route('/')
     .get(function(req, res, next) {
-      res.json([])
+      res.json(database)
     }).post(function(req, res, next) {
       // Create new recipe
     });
