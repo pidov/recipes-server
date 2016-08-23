@@ -1,4 +1,7 @@
-module.exports = function(router, db) {
+var Recipe = require('../models/Recipe');
+var logger = require('winston');
+
+module.exports = function(router) {
   'use strict';
   // This will handle the url calls for /recipes/:recipeId
   router.route('/:recipeId')
@@ -17,9 +20,24 @@ module.exports = function(router, db) {
 
   router.route('/')
     .get(function(req, res, next) {
-      console.log(db);
-      res.json([])
-    }).post(function(req, res, next) {
-      // Create new recipe
+      Recipe.find({}, function(err, recipes) {
+        if (err) throw err;
+        res.json(recipes);
+      })
+    })
+    .post(function(req, res, next) {
+
+      var newRecipe = new Recipe(req.body);
+
+      newRecipe.save(function(err, recipe) {
+        if (err) {
+          //TODO: Add validation handling
+          logger.error('[RECIPES ROUTE] Error saving recipe', err.errors);
+          res.json(err)
+          return;
+        }
+        res.json(recipe)
+      })
+
     });
 };

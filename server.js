@@ -8,20 +8,23 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var logger = require('winston');
 
+var mongoose = require('mongoose');
 var MongoClient = require('mongodb').MongoClient;
 var app;
 
 var start =  function(options, cb) {
   'use strict';
   logger.info('[SERVER] Initializing database connection');
-  MongoClient.connect(options.db.url, function(err, database) {
+
+
+  mongoose.connect(options.db.url, {}, function(err) {
     if (err) {
       logger.error('[DATABASE] Failed to connect to databse. The database said: ', err.message);
 
       if (cb) {
         return cb();
       }
-      
+
       return;
     }
     // Configure express
@@ -33,7 +36,7 @@ var start =  function(options, cb) {
 
 
     logger.info('[SERVER] Initializing routes');
-    require('./app/routes/index')(app, database);
+    require('./app/routes/index')(app);
 
     // Error handler
     app.use(function(err, req, res, next) {
@@ -51,7 +54,7 @@ var start =  function(options, cb) {
     if (cb) {
       return cb();
     }
-  })
+  });
 };
 
 module.exports = start;
