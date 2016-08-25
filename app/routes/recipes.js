@@ -1,21 +1,47 @@
 var Recipe = require('../models/Recipe');
+var Ingredient = require('../models/Ingredient');
 var logger = require('winston');
 
 module.exports = function(router) {
   'use strict';
   // This will handle the url calls for /recipes/:recipeId
-  router.route('/:recipeId')
+  router.route('/:name')
     .get(function(req, res, next) {
       // Return recipe
+      Recipe.findOne({
+        name: req.params.name
+      }, function(err, recipe) {
+        if (err) {
+          logger.error('[GET RECIPES/{NAME}] Error getting recipe', err.errors);
+          return res.json(err)
+        }
+
+        res.json(recipe || {})
+      })
     })
     .put(function(req, res, next) {
-      // Update recipe
-    })
-    .patch(function(req, res,next) {
-      // Patch
+      Recipe.findOneAndUpdate({
+        name: req.params.name
+      }, req.body, function(err, recipe) {
+        if (err) {
+          logger.error('[PUT RECIPES/{NAME}] Error updating recipe', err.errors);
+          return res.json(err)
+        }
+
+        res.json(recipe);
+      });
     })
     .delete(function(req, res, next) {
-      // Delete record
+      Recipe.findOneAndRemove({
+        name: req.params.name
+      }, function(err) {
+        if (err) {
+          logger.error('[DELETE RECIPES/{NAME}] Error updating recipe', err.errors);
+          return res.json(err)
+        }
+
+        res.json({});
+      });
     });
 
   router.route('/')
@@ -26,15 +52,11 @@ module.exports = function(router) {
       })
     })
     .post(function(req, res, next) {
-
       var newRecipe = new Recipe(req.body);
-
       newRecipe.save(function(err, recipe) {
         if (err) {
-          //TODO: Add validation handling
-          logger.error('[RECIPES ROUTE] Error saving recipe', err.errors);
-          res.json(err)
-          return;
+          logger.error('[POST RECIPES] Error saving recipe', err.errors);
+          return res.json(err)
         }
         res.json(recipe)
       })

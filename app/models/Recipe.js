@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ingredient = require('./Ingredient').schema;
 
 var recipes = new Schema({
   name: {
@@ -32,7 +33,6 @@ var recipes = new Schema({
     type: Array,
     required: true
   }
-
 });
 
 module.exports = mongoose.model('Recipe', recipes)

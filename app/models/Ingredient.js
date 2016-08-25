@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ingredient = new Schema({
+exports.schema = ingredient = new Schema({
   name: {
     type: String,
     required: true,
