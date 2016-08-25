@@ -3,11 +3,8 @@ var Schema = mongoose.Schema;
 
 var ingredient = new Schema({
   name: {
-      type: String,
-      required: true,
-  },
-  unit: {
-    type: String
+    type: String,
+    required: true,
   },
   calories: {
     type: Number,
