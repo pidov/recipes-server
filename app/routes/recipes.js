@@ -56,6 +56,7 @@ module.exports = function(router) {
       newRecipe.save(function(err, recipe) {
         if (err) {
           logger.error('[POST RECIPES] Error saving recipe', err.errors);
+          console.log(err);
           return res.json(err)
         }
         res.json(recipe)
