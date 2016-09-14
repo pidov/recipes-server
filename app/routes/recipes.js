@@ -10,7 +10,9 @@ module.exports = function(router) {
       // Return recipe
       Recipe.findOne({
         name: req.params.name
-      }, function(err, recipe) {
+      })
+      .populate('ingredients')
+      .exec(function(err, recipe) {
         if (err) {
           logger.error('[GET RECIPES/{NAME}] Error getting recipe', err.errors);
           return res.json(err)
