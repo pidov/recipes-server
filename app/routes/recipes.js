@@ -11,7 +11,7 @@ module.exports = function(router) {
       Recipe.findOne({
         name: req.params.name
       })
-      .populate('ingredients')
+      .populate('ingredients.details')
       .exec(function(err, recipe) {
         if (err) {
           logger.error('[GET RECIPES/{NAME}] Error getting recipe', err.errors);
@@ -48,7 +48,9 @@ module.exports = function(router) {
 
   router.route('/')
     .get(function(req, res, next) {
-      Recipe.find({}, function(err, recipes) {
+      Recipe.find({})
+      .populate('ingredients.details')
+      .exec(function(err, recipes) {
         if (err) throw err;
         res.json(recipes);
       })
@@ -58,7 +60,6 @@ module.exports = function(router) {
       newRecipe.save(function(err, recipe) {
         if (err) {
           logger.error('[POST RECIPES] Error saving recipe', err.errors);
-          console.log(err);
           return res.json(err)
         }
         res.json(recipe)

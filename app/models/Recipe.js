@@ -27,9 +27,13 @@ var recipes = new Schema({
     required: true
   },
   ingredients: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Ingredient'}
-  ],
+    qty: Number,
+    displayQty: String,
+    details: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Ingredient'
+    }
+  }],
   preparationSteps: {
     type: Array,
     required: true
