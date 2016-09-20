@@ -3,10 +3,6 @@ var Schema = mongoose.Schema;
 var ingredient = require('./Ingredient').schema;
 
 var recipes = new Schema({
-  featured: {
-    type: Boolean,
-    default: false
-  },
   name: {
     type: String,
     required: true,
@@ -41,7 +37,13 @@ var recipes = new Schema({
   preparationSteps: {
     type: Array,
     required: true
+  },
+  featured: {
+    type: Boolean,
+    default: false
   }
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Recipe', recipes)
