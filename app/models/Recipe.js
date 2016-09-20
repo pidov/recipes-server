@@ -3,6 +3,10 @@ var Schema = mongoose.Schema;
 var ingredient = require('./Ingredient').schema;
 
 var recipes = new Schema({
+  featured: {
+    type: Boolean,
+    default: false
+  },
   name: {
     type: String,
     required: true,
